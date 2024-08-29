@@ -53,8 +53,8 @@ void FastIO_init(); // Must be called before using fast io macros
 #define _GET_MODE(IO)           gpio_get_mode(IO)
 #define _SET_MODE(IO,M)         gpio_set_mode(IO,M)
 #define _SET_OUTPUT(IO)         _SET_MODE(IO, OUTPUT)                             //!< Output Push Pull Mode & GPIO_NOPULL
-
-#define WRITE(IO,V)             (V ? PORT_SetBitsMapp(IO) : PORT_ResetBitsMapp(IO))
+//kobra2
+#define WRITE(IO,V)             (V>0? PORT_SetBitsMapp(IO) : PORT_ResetBitsMapp(IO))
 #define READ(IO)                (PORT_GetBitMapp(IO) ? HIGH : LOW)
 #define TOGGLE(IO)              (PORT_ToggleMapp(IO))
 

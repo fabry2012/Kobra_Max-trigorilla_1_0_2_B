@@ -152,7 +152,8 @@ void GcodeSuite::get_destination_from_command() {
         destination[i] = current_position[i];
       else
         destination[i] = axis_is_relative(AxisEnum(i)) ? current_position[i] + v : LOGICAL_TO_NATIVE(v, i);
-    }
+		
+	}
     else
       destination[i] = current_position[i];
   }
@@ -173,8 +174,8 @@ void GcodeSuite::get_destination_from_command() {
 
   if (parser.linearval('F') > 0)
     feedrate_mm_s = parser.value_feedrate();
-
-  if(feedrate_mm_s<5)feedrate_mm_s=5;//daxiong 2021.3.10
+  //kobra2
+  //if(feedrate_mm_s<5)feedrate_mm_s=5;//daxiong 2021.3.10
 
   #if ENABLED(PRINTCOUNTER)
     if (!DEBUGGING(DRYRUN) && !skip_move)

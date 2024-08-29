@@ -2,8 +2,8 @@
 
 
 void fan_pwm_init(void)
-{
-    hal_fan_pwm_init(0);
+{	//kobra2
+    //hal_fan_pwm_init(0);
     hal_fan_pwm_init(2);
 }
 
@@ -68,6 +68,9 @@ void hal_fan_pwm_init(uint8_t fan)
 // frequency = PCLK1 / Div4 / period
 // period = 100M / Div4 / frequency = 1250
 // period = 84M / Div4 / frequency  = 1050
+	//kobra2
+    //period = 1250 - 1;
+    
     period = 1050 - 1;
 
     stcTimeraInit.enClkDiv = TimeraPclkDiv4;
@@ -175,7 +178,9 @@ void beep_pwm_init(void)
 // frequency = PCLK1 / Div8 / period
 // period = 100M / Div8 / 31250 = 400
 // period = 84M / Div8 / 26250 = 400
-
+	//kobra2
+    //period = 31250;
+    
     period = 26250;
 
     stcTimeraInit.enClkDiv = TimeraPclkDiv8;
@@ -218,8 +223,8 @@ void beep_pwm_init(void)
 void beep_pwm_set_frequency(uint32_t frequency, uint8_t ratio)
 {
     uint16_t periodValue = 0, compareValue = 0;
-
-//    periodValue = (uint32_t)(100000000ul / (1 << M4_TMRA3->BCSTR_f.CKDIV)) / frequency;
+	//kobra2
+	//periodValue = (uint32_t)(100000000ul / (1 << M4_TMRA3->BCSTR_f.CKDIV)) / frequency;
     periodValue = (uint32_t)(84000000ul / (1 << M4_TMRA3->BCSTR_f.CKDIV)) / frequency;
     M4_TMRA3->PERAR = periodValue;
 

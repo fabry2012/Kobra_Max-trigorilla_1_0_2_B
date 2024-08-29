@@ -7,10 +7,6 @@ If you are getting great prints from your Kobra Max keep in mind that you can't 
 
 You will be using a host via USB to complete the firmware update (Repetier Server Pro, Octoprint, Pronterface, etc) if you are using the AnyCubic stock firmware. If you are updating from a prior release of mine or Zombie's firmware release only re-flashing the firmware is needed. I.e. don't do the M502/M500 from a host.
 
-The firmware here was designed to work with Anycubic's original Tri-Gorilla_ProA V1.0.4 motherboard and a Nextion LCD that uses a DWIN_FOLDER. Anycubic has changed their production run so new Kobra Max's (and this might include the Kobra Series) with a Tri-Gorilla_ProB V1.0.2. There have been reports of the original firmware not working on the newer production or replacement motherboards. To determine which motherboard you have, the original uses a USB type B, the newer motherboards use a micro USB connector. The photo shows the difference.
-
-<img width="712" alt="Kobra_Max 2023-08-02 10-59-02" src="https://github.com/wabbitguy/Kobra_Max/assets/8953419/fb21433e-a221-41a9-8b69-c885f36b89a9">
-
 # Update Procedure
 
 1. Power off the Kobra Max
@@ -63,11 +59,11 @@ When the printer receives the M600 filament change GCODE:
 1. The hot end will lift and move to the back left corner (called the park position).
 2. The filament will then retract all the way back to the extruder to allow you to remove it.
 3. Insert the new filament approximately 1 to 2" just past the extruder output; do NOT push the filament all the way to the hot end!)
-4. On the LCD Status display press the  "RESUME" button.
+4. On the LCD Status display press the "PAUSE" or "RESUME" button (it's mislabeled now but has closed source so can not be altered)
 5. Filament will feed all the way to the hot end, and purge approximately 40mm to ensure accurate change
 6. Wipe the nozzle, printer will then automatically return to the original, lower and resume printing
 
-*Note* after purging/wiping there is a slight delay before the hot end returns to the print job. Be patient. Some hold a metal spatula under it so it doesn't drip.
+*Note* after purging there is a slight delay before the hot end returns to the print job. Be patient.
 
 # Filament Printing Examples
 
@@ -76,4 +72,3 @@ When the printer receives the M600 filament change GCODE:
 ![alt-text](https://github.com/wabbitguy/Kobra_Max/blob/master/images/single_layer_change.jpg)
 
 ![alt-text](https://github.com/wabbitguy/Kobra_Max/blob/master/images/end_result.jpg)
-

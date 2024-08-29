@@ -97,9 +97,10 @@ static __IO uint32_t m_u32TickCount = 0UL;
  ******************************************************************************/
 void DebugOutput(uint8_t u8Data)
 {
-    while(Reset == M4_USART2->SR_f.TXE);
-    while(Reset == M4_USART2->SR_f.TC);
-    M4_USART2->DR = u8Data;
+	//kobra2
+    while(Reset == M4_USART1->SR_f.TXE);
+    while(Reset == M4_USART1->SR_f.TC);
+    M4_USART1->DR = u8Data;
 }
 
 /**

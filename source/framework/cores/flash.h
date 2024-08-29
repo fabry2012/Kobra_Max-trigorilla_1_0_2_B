@@ -20,10 +20,11 @@ extern "C" {
 #define FLASH_ALL_END         ((uint32_t)0x0003FFFFU)
 
 // use last sector to emulate eeprom
-#define FLASH_EEPROM_BASE     ((uint32_t)0x0003E000U)
+//kobra2
+#define FLASH_EEPROM_BASE     ((uint32_t)0x0004E000U)
 
-
-#define FLASH_BASE            ((uint32_t)0x0003E000U)              /*!< FLASH base address in the alias region */
+//kobra2
+#define FLASH_BASE            ((uint32_t)0x0004E000U)              /*!< FLASH base address in the alias region */
 
 // just use 1k bytes, not a full sector
 #define EEPROM_SIZE           1024

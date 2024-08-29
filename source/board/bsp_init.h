@@ -240,7 +240,9 @@ void uart1_init();
 void uart2_init();
 void uart3_init();
 void uart4_init(void);
-
+//kobra2
+void Disable_UsartRxInt();
+void Enable_UsartRxInt();
 
 #ifdef __cplusplus
 }

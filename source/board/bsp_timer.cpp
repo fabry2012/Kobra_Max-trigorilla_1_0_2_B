@@ -234,7 +234,10 @@ void timer41_init(void)
 //    stcCntInit.u16Cycle = get_pclk1Freq() / (1 << stcCntInit.enClkDiv) * period;
 //    stcCntInit.u16Cycle = 100000000UL / (1 << 1) * 0.001 = 50000; // 1ms
 //    stcCntInit.u16Cycle = 84000000UL / (1 << 1) * 0.001 = 42000; // 1ms
+    //kobra2
+    //stcCntInit.u16Cycle = 50000;
     stcCntInit.u16Cycle = 42000; // 1 ms
+
     stcCntInit.enCntMode = Timer4CntSawtoothWave;
     stcCntInit.enZeroIntCmd = Enable;
     stcCntInit.enPeakIntCmd = Disable;

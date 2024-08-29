@@ -61,7 +61,8 @@ int32_t main(void)
     heater_pin_init();
 
 // 0x1C swd on ; 0x1F swd off
-    PORT_DebugPortSetting(0x1F, Disable);
+//kobra2
+//PORT_DebugPortSetting(0x1F, Disable);
 
     fan_pwm_init();
     beep_pwm_init();

@@ -41,7 +41,7 @@
 
 // Check the integrity of data offsets.
 // Can be disabled for production build.
-//#define DEBUG_EEPROM_READWRITE
+#define DEBUG_EEPROM_READWRITE
 
 #include "settings.h"
 
@@ -219,7 +219,7 @@ typedef struct SettingsDataStruct {
   // MESH_BED_LEVELING
   //
   float mbl_z_offset;                                   // mbl.z_offset
-  uint8_t mesh_num_x, mesh_num_y;                       // GRID_MAX_POINTS_X, GRID_MAX_POINTS_Y
+  uint32_t mesh_num_x, mesh_num_y;                       // GRID_MAX_POINTS_X, GRID_MAX_POINTS_Y
   float mbl_z_values[TERN(MESH_BED_LEVELING, GRID_MAX_POINTS_X, 3)]   // mbl.z_values
                     [TERN(MESH_BED_LEVELING, GRID_MAX_POINTS_Y, 3)];
 
@@ -237,7 +237,7 @@ typedef struct SettingsDataStruct {
   //
   // AUTO_BED_LEVELING_BILINEAR
   //
-  uint8_t grid_max_x, grid_max_y;                       // GRID_MAX_POINTS_X, GRID_MAX_POINTS_Y
+  uint32_t grid_max_x, grid_max_y;                       // GRID_MAX_POINTS_X, GRID_MAX_POINTS_Y
   xy_pos_t bilinear_grid_spacing, bilinear_start;       // G29 L F
   #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
     bed_mesh_t z_values;                                // G29
@@ -709,7 +709,7 @@ void MarlinSettings::postprocess() {
         dummyf = 0;
       #endif
 
-      const uint8_t mesh_num_x = TERN(MESH_BED_LEVELING, GRID_MAX_POINTS_X, 3),
+      const uint32_t mesh_num_x = TERN(MESH_BED_LEVELING, GRID_MAX_POINTS_X, 3),
                     mesh_num_y = TERN(MESH_BED_LEVELING, GRID_MAX_POINTS_Y, 3);
 
       EEPROM_WRITE(TERN(MESH_BED_LEVELING, mbl.z_offset, dummyf));
@@ -719,7 +719,7 @@ void MarlinSettings::postprocess() {
       #if ENABLED(MESH_BED_LEVELING)
         EEPROM_WRITE(mbl.z_values);
       #else
-        for (uint8_t q = mesh_num_x * mesh_num_y; q--;) EEPROM_WRITE(dummyf);
+        for (uint32_t q = mesh_num_x * mesh_num_y; q--;) EEPROM_WRITE(dummyf);
       #endif
     }
 
@@ -744,7 +744,7 @@ void MarlinSettings::postprocess() {
         EEPROM_WRITE(planner.bed_level_matrix);
       #else
         dummyf = 0;
-        for (uint8_t q = 9; q--;) EEPROM_WRITE(dummyf);
+        for (uint32_t q = 9; q--;) EEPROM_WRITE(dummyf);
       #endif
     }
 
@@ -761,7 +761,7 @@ void MarlinSettings::postprocess() {
         const xy_pos_t bilinear_start{0}, bilinear_grid_spacing{0};
       #endif
 
-      const uint8_t grid_max_x = TERN(AUTO_BED_LEVELING_BILINEAR, GRID_MAX_POINTS_X, 3),
+      const uint32_t grid_max_x = TERN(AUTO_BED_LEVELING_BILINEAR, GRID_MAX_POINTS_X, 3),
                     grid_max_y = TERN(AUTO_BED_LEVELING_BILINEAR, GRID_MAX_POINTS_Y, 3);
       EEPROM_WRITE(grid_max_x);
       EEPROM_WRITE(grid_max_y);
@@ -1548,7 +1548,7 @@ void MarlinSettings::postprocess() {
       // Mesh (Manual) Bed Leveling
       //
       {
-        uint8_t mesh_num_x, mesh_num_y;
+        uint32_t mesh_num_x, mesh_num_y;
         EEPROM_READ(dummyf);
         EEPROM_READ_ALWAYS(mesh_num_x);
         EEPROM_READ_ALWAYS(mesh_num_y);
@@ -1590,7 +1590,7 @@ void MarlinSettings::postprocess() {
         #if ABL_PLANAR
           EEPROM_READ(planner.bed_level_matrix);
         #else
-          for (uint8_t q = 9; q--;) EEPROM_READ(dummyf);
+          for (uint32_t q = 9; q--;) EEPROM_READ(dummyf);
         #endif
       }
 
@@ -1598,7 +1598,7 @@ void MarlinSettings::postprocess() {
       // Bilinear Auto Bed Leveling
       //
       {
-        uint8_t grid_max_x, grid_max_y;
+        uint32_t grid_max_x, grid_max_y;
         EEPROM_READ_ALWAYS(grid_max_x);                // 1 byte
         EEPROM_READ_ALWAYS(grid_max_y);                // 1 byte
         #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
@@ -2408,9 +2408,9 @@ void MarlinSettings::postprocess() {
         #if ENABLED(OPTIMIZED_MESH_STORAGE)
           int16_t z_mesh_store[GRID_MAX_POINTS_X][GRID_MAX_POINTS_Y];
           ubl.set_store_from_mesh(ubl.z_values, z_mesh_store);
-          uint8_t * const src = (uint8_t*)&z_mesh_store;
+          uint32_t * const src = (uint32_t*)&z_mesh_store;
         #else
-          uint8_t * const src = (uint8_t*)&ubl.z_values;
+          uint32_t * const src = (uint32_t*)&ubl.z_values;
         #endif
 
         // Write crc to MAT along with other data, or just tack on to the beginning or end
@@ -2443,9 +2443,9 @@ void MarlinSettings::postprocess() {
         uint16_t crc = 0;
         #if ENABLED(OPTIMIZED_MESH_STORAGE)
           int16_t z_mesh_store[GRID_MAX_POINTS_X][GRID_MAX_POINTS_Y];
-          uint8_t * const dest = (uint8_t*)&z_mesh_store;
+          uint32_t * const dest = (uint32_t*)&z_mesh_store;
         #else
-          uint8_t * const dest = into ? (uint8_t*)into : (uint8_t*)&ubl.z_values;
+          uint32_t * const dest = into ? (uint32_t*)into : (uint32_t*)&ubl.z_values;
         #endif
 
         persistentStore.access_start();

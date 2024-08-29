@@ -45,10 +45,11 @@ void clock_init(void)
 
     /* MPLL config. */
     stcMpllCfg.pllmDiv = 1u; /* XTAL 8M / 1 */
-    stcMpllCfg.plln = 42u;   /* 8M*42 = 336M */
-    stcMpllCfg.PllpDiv = 2u; /* MLLP = 168M */
-    stcMpllCfg.PllqDiv = 2u; /* MLLQ = 168M */
-    stcMpllCfg.PllrDiv = 2u; /* MLLR = 168M */
+    //kobra2
+    stcMpllCfg.plln = 42u;   /* 8M*50 = 400M */
+    stcMpllCfg.PllpDiv = 2u; /* MLLP = 200M */
+    stcMpllCfg.PllqDiv = 2u; /* MLLQ = 200M */
+    stcMpllCfg.PllrDiv = 2u; /* MLLR = 200M */
     CLK_SetPllSource(ClkPllSrcXTAL);
     CLK_MpllConfig(&stcMpllCfg);
 
@@ -107,7 +108,12 @@ void led_pin_init(void)
 
     PORT_Init(PortA, Pin01, &stcPortInit);
     PORT_Init(PortA, Pin04, &stcPortInit);
-
+	
+	//kobra2
+	PORT_DebugPortSetting(TRST,Disable);//PB4
+	stcPortInit.enPullUp  = Enable;
+    PORT_Init(PortB, Pin04, &stcPortInit);
+	PORT_SetBits(PortB,Pin04);
     LED0_OFF();
 }
 
@@ -189,7 +195,8 @@ void fan_pin_init(void)
     stcPortInit.enPullUp  = Disable;
 
 // 0x1C swd on ; 0x1F swd off
-    PORT_DebugPortSetting(0x1F, Disable);
+//kobra2
+//PORT_DebugPortSetting(0x1F, Disable);
 
 #if 0
     PORT_SetFunc(FAN_0_PORT, FAN_0_PIN, Func_Gpio, Disable);
@@ -487,6 +494,15 @@ void uart4_init(void)
     USART_FuncCmd(USART4_CH, UsartRxInt, Enable);
 //  USART_FuncCmd(USART3_CH, UsartTxCmpltInt, Enable);
 }
+//kobra2
+void Disable_UsartRxInt()
+{
+	USART_FuncCmd(USART4_CH, UsartRx, Disable);
+}
 
-
-
+void Enable_UsartRxInt()
+{
+	USART_FuncCmd(USART4_CH, UsartRx, Enable);
+	USART_FuncCmd(USART4_CH, UsartRxInt, Enable);
+	NVIC_EnableIRQ(IRQ_INDEX_USART4_INT_EI);
+}
